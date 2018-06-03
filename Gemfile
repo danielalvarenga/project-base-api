@@ -48,3 +48,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Abort requests that are taking too long
 # https://devcenter.heroku.com/articles/deploying-rails-applications-with-the-puma-web-server#timeout
 gem 'rack-timeout'
+
+# format logs
+gem 'lograge'
+gem 'logstash-event'
