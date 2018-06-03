@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+  db:
+    image: 'postgres:9.6-alpine'
+    environment:
+      POSTGRES_USER: 'root'
+      POSTGRES_PASSWORD: 'root123'
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'db:/var/lib/postgresql/data'
+
+  setup:
+    depends_on:
+      - 'db'
+    image: 'project-base-api:latest'
+    command: "bundle exec rails db:create db:migrate db:seed"
+    env_file:
+      - '.env'
+
+  web:
+    depends_on:
+      - 'setup'
+    image: 'project-base-api:latest'
+    container_name: project-base-api
+    command: 'bundle exec puma -C config/puma.rb'
+    volumes:
+      - '.:/app'
+    ports:
+      - "3000:3000"
+    env_file:
+      - '.env'
+    stdin_open: true
+    tty: true
+      
+volumes:
+  db:

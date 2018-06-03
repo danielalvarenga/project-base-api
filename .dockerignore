@@ -1,0 +1,16 @@
+.git
+.dockerignore
+/deploy/*
+exec.dev.sh
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+
+# Ignore uploaded files in development
+/storage/*
+
+.byebug_history
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
