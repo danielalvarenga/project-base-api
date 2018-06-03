@@ -56,3 +56,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # format logs
 gem 'lograge'
 gem 'logstash-event'
+
+# Code quality
+gem 'rubocop'
+
