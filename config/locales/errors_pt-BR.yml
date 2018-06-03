@@ -1,0 +1,42 @@
+pt-BR:
+  errors:
+    example:
+      log: true
+      log_level: info
+      log_message: "Message to show in logs"
+      message: "Human message"
+      code: EX
+      http_status: 404
+      email_alert: true # send email alert when this error happens
+      email_subject: "email subject"
+      email_message: "email message"
+      emails_from: "example@email.com,other.example@email.com" # Who will receive email alert
+      email_recommendation: "Suggest how handler this error" # Send to email
+    default:
+      log: true
+      log_level: info
+      log_message: "uefault error"
+      message: "Sorry, we could not proceed at this time. Please try again later."
+      code: E1
+      http_status: 200
+      email_alert: false
+    unknown:
+      log: true
+      log_level: error
+      log_message: "unknown error"
+      message: "Sorry, we could not proceed at this time. Please try again later."
+      code: E2
+      http_status: 500
+      email_alert: false
+      email_subject:
+      email_message:
+      emails_from: 
+      email_recommendation:
+    email_not_sent:
+      log: true
+      log_level: warn
+      log_message: "missing error_key"
+      message: ""
+      code: E3
+      http_status:
+      email_alert: false

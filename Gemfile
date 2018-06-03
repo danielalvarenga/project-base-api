@@ -60,4 +60,7 @@ gem 'lograge'
 gem 'logstash-event'
 
 # Code quality
-gem 'rubocop'
+gem 'rubocop', require: false
+
+# Serializer
+gem 'fast_jsonapi'

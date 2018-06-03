@@ -25,6 +25,9 @@ module ProjectBaseApi
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
 
+    config.autoload_paths << Rails.root.join('lib')
+    config.autoload_paths << Rails.root.join('lib/notification')
+
     # Set timezone
     config.time_zone = 'America/Sao_Paulo'
     config.active_record.default_timezone = :local
