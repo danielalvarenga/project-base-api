@@ -6,7 +6,7 @@ module Notification
     class << self
 
       def send(exception)
-        raise AplicationException.new(error_key: 'email_not_sent') unless exception.try(:error_key)
+        raise CustomException.new(error_key: 'email_not_sent') unless exception.try(:error_key)
 
         return unless exception.email_alert
 
@@ -18,7 +18,7 @@ module Notification
             message: get_message(exception)
           ).deliver_later
         rescue Exception => e
-          raise AplicationException.new(error_key: 'email_not_sent', log_message: "exception=#{e.inspect}")
+          CustomException.new(error_key: 'email_not_sent', log_message: "exception=#{e.inspect}")
           Rails.logger.error e
         end
       end

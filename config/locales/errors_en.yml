@@ -1,4 +1,4 @@
-pt-BR:
+en:
   errors:
     example:
       log: true
@@ -15,7 +15,7 @@ pt-BR:
     default:
       log: true
       log_level: info
-      log_message: "uefault error"
+      log_message: "default error"
       message: "Sorry, we could not proceed at this time. Please try again later."
       code: E1
       http_status: 200
