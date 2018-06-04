@@ -20,10 +20,10 @@ en:
       code: E1
       http_status: 200
       email_alert: false
-    unknown:
+    internal_server_error:
       log: true
       log_level: error
-      log_message: "unknown error"
+      log_message: "internal_server_error"
       message: "Sorry, we could not proceed at this time. Please try again later."
       code: E2
       http_status: 500
@@ -39,4 +39,28 @@ en:
       message: ""
       code: E3
       http_status:
+      email_alert: false
+    route_not_found:
+      log: false
+      log_level:
+      log_message:
+      message: "Route not found"
+      code: E4
+      http_status: 404
+      email_alert: false
+    timeout:
+      log: true
+      log_level: error
+      log_message: 
+      message: "Sorry, we could not proceed at this time. Please try again."
+      code: E5
+      http_status: 408
+      email_alert: false
+    parameter_missing:
+      log: false
+      log_level:
+      log_message: 
+      message: "Parameters is missing or the value is empty."
+      code: E6
+      http_status: 400
       email_alert: false

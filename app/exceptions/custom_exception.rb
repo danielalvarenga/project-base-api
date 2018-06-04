@@ -2,12 +2,12 @@
 
 class CustomException < StandardError
 
-  attr_reader :error_key, :code, :http_status, :log, :log_level, :log_message, :mdc, :data
+  attr_reader :error_key, :code, :http_status, :log, :log_level, :log_message, :mdc, :data, :location
   attr_reader :email_alert, :email_subject, :email_message, :emails_from, :email_recommendation
 
+  # Args: Hash, String, Exception
   def initialize(args)
-    set_error_key(args)
-    args = {} if @error_key == args
+    args = check_args(args)
 
     message = args.fetch(:message) { I18n.t("errors.#{@error_key}.message", args) }
     super(message)
@@ -19,11 +19,39 @@ class CustomException < StandardError
     end
   end
 
-  def set_error_key(args)
-    return @error_key = args if args.is_a?(Symbol) || args.is_a?(String)
+  def check_args(args)
+    if args.is_a?(Symbol) || args.is_a?(String)
+      @error_key = args
+      return {}
+    end
+
+    raise(KeyError, 'Error key is not identified in argument') unless args.respond_to?(:fetch) || args.is_a?(Exception)
+
+    args = check_exception(args)
+
     @error_key = args.fetch(:error_key).try(:downcase) do
       raise(KeyError, 'Error key is not identified in argument')
     end
+    args
+  end
+
+  def check_exception(args)
+    if args.is_a?(Exception)
+      Rails.logger.debug args.inspect
+      Rails.logger.debug args.backtrace_locations.inspect
+      return {
+        error_key: 'internal_server_error',
+        log_message: "#{args.class}|#{args.message}",
+        location: args.backtrace_locations.try(:first)
+      }
+    end
+
+    if args.respond_to?(:fetch) && args[:exception]
+      args[:log_message] = "#{args[:exception].class}|#{args[:exception].message}"
+      args[:location] = args[:exception].backtrace_locations.try(:first)
+    end
+
+    args
   end
 
   def get_locale_error
@@ -33,10 +61,11 @@ class CustomException < StandardError
   end
 
   def set_attributes(args)
-    @mdc = args.fetch(:mdc) if args[:mdc]
+    @mdc = args.fetch(:mdc) { nil }
     @code = @error.code
     @http_status = @error.http_status if @error.http_status
     @data = @error.data if @error.data
+    @location = args.fetch(:location) { nil }
   end
 
   def log_error(args)
@@ -47,7 +76,7 @@ class CustomException < StandardError
 
     log_msg = "error_key=#{@error_key}"
     log_msg << "|message=[#{@log_message}]" if @log_message
-    log_msg << "|location=[#{backtrace_locations.try(:first)}]" if backtrace_locations.present?
+    log_msg << "|location=[#{@location}]" if @location
     Rails.logger.send(@log_level, log_msg)
   end
 

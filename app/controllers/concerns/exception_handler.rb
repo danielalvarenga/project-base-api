@@ -4,9 +4,16 @@ module ExceptionHandler
   extend ActiveSupport::Concern
 
   included do
+    rescue_from Exception, with: :internal_server_error
     rescue_from ActiveRecord::RecordInvalid, with: :unprocessable_entity
     rescue_from ActiveRecord::RecordNotFound, with: :not_found
-    rescue_from CustomException, with: :render_custom_exception
+    rescue_from ActionController::ParameterMissing, with: :parameter_missing
+    rescue_from CustomException, with: :custom_error
+    rescue_from Net::ReadTimeout, with: :timeout
+  end
+
+  def route_not_found
+    raise CustomException.new('route_not_found')
   end
 
   private
@@ -16,10 +23,25 @@ module ExceptionHandler
   end
 
   def not_found(e)
-    render_error_response(e, status: :not_found)
+    render_error_response(e, :not_found)
   end
 
-  def render_custom_exception(e)
+  def parameter_missing(e)
+    error = CustomException.new(error_key: :parameter_missing, exception: e)
+    render_error_response(error, error.http_status)
+  end
+
+  def internal_server_error(e)
+    error = CustomException.new(e)
+    render_error_response(error, error.http_status)
+  end
+
+  def timeout(e)
+    error = CustomException.new(error_key: :timeout, exception: e)
+    render_error_response(error, error.http_status)
+  end
+
+  def custom_error(e)
     render_error_response(e, e.http_status)
   end
 
