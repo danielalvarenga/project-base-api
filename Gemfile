@@ -62,5 +62,5 @@ gem 'logstash-event'
 # Code quality
 gem 'rubocop', require: false
 
-# Serializer
-gem 'fast_jsonapi'
+#Pagination
+gem 'will_paginate'

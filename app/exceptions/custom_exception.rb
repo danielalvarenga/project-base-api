@@ -1,5 +1,8 @@
 # frozen_string_literal: false
 
+# CustomException.new('route_not_found')
+# CustomException.new(error_key: :timeout, exception: e)
+# CustomException.new(error_key: 'user_cms_error', message: 'Perdeu playboy', log_message: 'deu merda'...)
 class CustomException < StandardError
 
   attr_reader :error_key, :code, :http_status, :log, :log_level, :log_message, :mdc, :data, :location

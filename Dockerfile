@@ -35,7 +35,7 @@ COPY Gemfile.lock $APP_ROOT/Gemfile.lock
 
 # Install gems
 RUN bundle config --global frozen 1
-RUN bundle install $bundle_options_var --path /bundle
+RUN bundle install $bundle_options_var
 
 # Copy all project files to application folder inside container
 COPY . $APP_ROOT

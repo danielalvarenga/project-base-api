@@ -64,3 +64,19 @@ en:
       code: E6
       http_status: 400
       email_alert: false
+    invalid_bearer_token:
+      log: true
+      log_level: info
+      log_message: "Invalid bearer token"
+      message: "Invalid bearer token"
+      code: E7
+      http_status: 401
+      email_alert: false
+    forbidden:
+      log: true
+      log_level: info
+      log_message: "Forbidden"
+      message: "Forbidden"
+      code: E8
+      http_status: 403
+      email_alert: false

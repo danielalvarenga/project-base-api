@@ -36,7 +36,7 @@ workers ENV.fetch('WEB_CONCURRENCY') { 2 }
 # Under most situations you will not have to tweak this value, which is why it
 # is coded into the config rather than being an environment variable.
 #
-worker_timeout 30
+worker_timeout ENV.fetch('WORKER_TIMEOUT') { 30 }
 
 # The path to the puma binary without any arguments.
 restart_command 'puma'

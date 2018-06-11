@@ -4,5 +4,6 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'home#index'
 
+  # Keep in last line unmatched route
   match '*unmatched', to: 'application#route_not_found', via: :all
 end

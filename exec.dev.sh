@@ -2,6 +2,8 @@
 
 containerRepositoryName='project-base-api'
 
+docker-compose down
+
 # Create container application image with "latest" tag, set "Dockerfile" path,
 # change "rails_env_var" variable inside Dockerfile and context path
 docker build -t $containerRepositoryName:latest --build-arg bundle_options_var='--without staging production' .

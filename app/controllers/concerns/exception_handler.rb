@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'net/http'
 
 module ExceptionHandler
   extend ActiveSupport::Concern
@@ -13,7 +14,7 @@ module ExceptionHandler
   end
 
   def route_not_found
-    raise CustomException.new('route_not_found')
+    raise CustomException, 'route_not_found'
   end
 
   private
@@ -46,8 +47,7 @@ module ExceptionHandler
   end
 
   def render_error_response(e, http_status)
-    result = { status: 'error',
-               error_key: e.error_key || e.class.to_s.split('::').last.underscore,
+    result = { status: e.error_key || e.class.to_s.split('::').last.underscore,
                message: e.message }
     result[:code] = e.code if e.code
     result[:data] = e.record.errors if e.respond_to?(:record) && e.record&.errors
